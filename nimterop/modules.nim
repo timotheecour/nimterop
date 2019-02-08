@@ -6,7 +6,7 @@ on everything.
 when true:
   ## pending https://github.com/nim-lang/Nim/pull/10527
   import sequtils, os, strformat, macros
-  import "."/[paths]
+  import "."/[paths, compat]
   macro importPaths(a: static openArray[string]): untyped =
     result = newStmtList()
     for ai in a: result.add quote do: from `ai` import nil
