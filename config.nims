@@ -1,3 +1,6 @@
+# avoids clashes between installed and local version of each module
+switch("path", ".")
+
 #[
 see D20190127T231316 workaround for fact that toast needs to build
 scanner.cc, which would otherwise result in link errors such as:
