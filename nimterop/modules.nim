@@ -26,7 +26,7 @@ when true:
       if path.splitFile.ext != ".nim": continue
       if path.splitFile.name in ["astold"]: continue
       # if path == currentSourcePath: continue
-      if path.absolutePath == currentSourcePath: continue
+      if path.splitFile.name == currentSourcePath.splitFile.name: continue
       #[
       note(D20190208T153915): using `relativePath` because some files in nimterop use `import nimterop/foo` and it'd otherwise give this error:
 Hint: tsgen [Processing]
