@@ -12,20 +12,28 @@ when true:
     result = newStmtList()
     for ai in a: result.add quote do: from `ai` import nil
 
-  const dir = nimteropSrcDir()
+  when defined(windows): # pending https://github.com/nim-lang/Nim/pull/10629
+    # const dirRoot = nimteropRoot()
+    const dirRoot = ".."
+    const dir = "."
+  else:
+    const dirRoot = nimteropRoot()
+    const dir = nimteropSrcDir()
+
   const files = block:
     var ret: seq[string]
     for path in walkDirRec(dir, yieldFilter = {pcFile}):
       if path.splitFile.ext != ".nim": continue
       if path.splitFile.name in ["astold"]: continue
-      if path == currentSourcePath: continue
+      # if path == currentSourcePath: continue
+      if path.absolutePath == currentSourcePath: continue
       #[
       note(D20190208T153915): using `relativePath` because some files in nimterop use `import nimterop/foo` and it'd otherwise give this error:
 Hint: tsgen [Processing]
 modules.nim(24, 15) template/generic instantiation of `importPaths` from here
 /Users/travis/.nimble/pkgs/nimterop-0.1.1/nimterop/cimport.nim(1, 2) Error: module names need to be unique per Nimble package; module clashes with /Users/travis/build/nimterop/nimterop/nimterop/cimport.nim
       ]#
-      ret.add path.relativePath nimteropRoot()
+      ret.add path.relativePath dirRoot
     ret
   static: echo files
   importPaths files
