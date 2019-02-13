@@ -12,14 +12,17 @@ when true:
     result = newStmtList()
     for ai in a: result.add quote do: from `ai` import nil
 
-  const workaround_10629 = defined(windows)
-    # pending https://github.com/nim-lang/Nim/pull/10629
-  when workaround_10629:
-    const dirRoot = ".."
-    const dir = "."
-  else:
-    const dirRoot = nimteropRoot()
-    const dir = nimteropSrcDir()
+  # const workaround_10629 = defined(windows)
+  # pending https://github.com/nim-lang/Nim/pull/10629
+  # when workaround_10629:
+  #   const dirRoot = ".."
+  #   const dir = getCurrentSourcePath
+  # else:
+  #   const dirRoot = nimteropRoot()
+  #   const dir = nimteropSrcDir()
+
+  const dirRoot = nimteropRoot()
+  const dir = nimteropSrcDir()
 
   const files = block:
     var ret: seq[string]
@@ -36,10 +39,12 @@ Hint: tsgen [Processing]
 modules.nim(24, 15) template/generic instantiation of `importPaths` from here
 /Users/travis/.nimble/pkgs/nimterop-0.1.1/nimterop/cimport.nim(1, 2) Error: module names need to be unique per Nimble package; module clashes with /Users/travis/build/nimterop/nimterop/nimterop/cimport.nim
       ]#
-      when workaround_10629:
-        ret.add "nimterop/" & path
-      else:
-        ret.add path.relativePath dirRoot
+      # when workaround_10629:
+      #   ret.add "nimterop/" & path
+      # else:
+      #   ret.add path.relativePath dirRoot
+      echo ("importPaths", path, path.relativePath(dirRoot), dirRoot)
+      ret.add path.relativePath dirRoot
     ret
   static: echo files
   importPaths files
