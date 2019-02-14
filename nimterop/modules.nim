@@ -5,7 +5,8 @@ on everything.
 
 when true:
   ## pending https://github.com/nim-lang/Nim/pull/10527
-  import sequtils, os, strformat, macros
+  # import sequtils, os, strformat, macros
+  import sequtils, strformat, macros
   # using "."/ would give similar error as D20190208T153915
   import nimterop/[paths, compat]
   macro importPaths(a: static openArray[string]): untyped =

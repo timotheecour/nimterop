@@ -1,5 +1,4 @@
-import macros, os, osproc, regex, strformat, strutils
-
+import macros, osproc, regex, strformat, strutils
 import "."/[paths, compat]
 
 proc execAction*(cmd: string, nostderr=false): string =
