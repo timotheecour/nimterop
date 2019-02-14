@@ -6,7 +6,7 @@ on everything.
 when true:
   ## pending https://github.com/nim-lang/Nim/pull/10527
   # import sequtils, os, strformat, macros
-  import sequtils, strformat, macros
+  import sequtils, strformat, strutils, macros
   # using "."/ would give similar error as D20190208T153915
   import nimterop/[paths, compat]
   macro importPaths(a: static openArray[string]): untyped =
@@ -15,12 +15,12 @@ when true:
 
   const dirRoot = nimteropRoot()
   const dir = nimteropSrcDir()
-
+  static: echo (dirRoot, dir)
   const files = block:
     var ret: seq[string]
     for path in walkDirRec(dir, yieldFilter = {pcFile}):
       if path.splitFile.ext != ".nim": continue
-      if path.splitFile.name in ["astold"]: continue
+      if path.endsWith "astold.nim": continue
       when workaround_10629:
         if path.splitFile.name == currentSourcePath.splitFile.name: continue
       else:

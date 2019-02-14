@@ -15,3 +15,24 @@ else:
 # Workaround for NilAccessError crash on Windows #98
 when defined(Windows):
   switch("gc", "markAndSweep")
+
+const workaround_10629 = defined(windows) and defined(nimdoc)
+when workaround_10629:
+  import ospaths
+  import strformat
+
+  proc getNimRootDir(): string =
+    fmt"{currentSourcePath}".parentDir.parentDir.parentDir
+
+  const file = getNimRootDir() / "lib/pure/ospaths.nim"
+  echo ("PRTEMP:", file)
+  const dir = getTempDir()
+  const file2 = dir / "ospaths.nim"
+  var text = file.readFile
+  import strutils
+  text = replace(text, """
+    DirSep* = '/'""", """
+    DirSep* = '\\'""")
+
+  writeFile file2, text
+  patchFile("stdlib", "ospaths", file2)

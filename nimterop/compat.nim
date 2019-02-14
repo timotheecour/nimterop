@@ -5,7 +5,7 @@ put everything that requires `when (NimMajor, NimMinor, NimPatch)` here
 
 import std/strutils
 
-const workaround_10629* = defined(windows) and defined(nimdoc)
+const workaround_10629* = defined(windows) and defined(nimdoc) and false
   ## pending https://github.com/nim-lang/Nim/pull/10527
 
 when workaround_10629:
@@ -22,6 +22,7 @@ else:
 
 when workaround_10629:
   const DirSep* = '\\'
+  # const DirSep* = when defined(windows): '\\' else: '/'
 
   proc `/`*(lhs, rhs: string): string =
     result = lhs & $DirSep & rhs
