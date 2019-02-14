@@ -46,6 +46,7 @@ when (NimMajor, NimMinor, NimPatch) >= (0, 19, 9):
   # export relativePath
   export os.relativePath
 else:
+  from std/os import unixToNativePath, normalizedPath
   proc relativePath*(file, base: string): string =
     ## naive version of `os.relativePath` ; remove after nim >= 0.19.9
     runnableExamples:
