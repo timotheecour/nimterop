@@ -16,23 +16,17 @@ else:
 when defined(Windows):
   switch("gc", "markAndSweep")
 
-const workaround_10629 = defined(windows) and defined(nimdoc)
+const workaround_10629 = defined(windows)
+  # pending https://github.com/nim-lang/Nim/pull/10629
 when workaround_10629:
-  import ospaths
-  import strformat
-
+  import ospaths, strformat, strutils
   proc getNimRootDir(): string =
     fmt"{currentSourcePath}".parentDir.parentDir.parentDir
-
   const file = getNimRootDir() / "lib/pure/ospaths.nim"
-  echo ("PRTEMP:", file)
-  const dir = getTempDir()
-  const file2 = dir / "ospaths.nim"
+  const file2 = getTempDir() / "ospaths.nim"
   var text = file.readFile
-  import strutils
   text = replace(text, """
     DirSep* = '/'""", """
     DirSep* = '\\'""")
-
   writeFile file2, text
   patchFile("stdlib", "ospaths", file2)
