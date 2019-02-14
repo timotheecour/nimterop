@@ -9,13 +9,17 @@ const workaround_10629* = defined(windows) and defined(nimdoc)
   ## pending https://github.com/nim-lang/Nim/pull/10527
 
 when workaround_10629:
-  import std/os except parentDir, DirSep
+  import std/os except parentDir, DirSep, `/`
 else:
   import std/os
-  export parentDir, DirSep
+  export parentDir, DirSep, `/`
 
 when workaround_10629:
   const DirSep* = '\\'
+
+  proc `/`*(lhs, rhs: string): string =
+    result = lhs & $DirSep & rhs
+
   proc parentDirPos(path: string): int =
     var q = 1
     if len(path) >= 1 and path[len(path)-1] in {DirSep, AltSep}: q = 2
