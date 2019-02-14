@@ -30,7 +30,6 @@ when workaround_10629:
     else:
       result = ""
 
-
 when (NimMajor, NimMinor, NimPatch) >= (0, 19, 9):
   export relativePath
 else:

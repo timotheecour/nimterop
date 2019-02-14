@@ -73,9 +73,6 @@ task test, "Test":
   testAll()
   runNimDoc()
 
-task nimDoc, "run nim doc":
-  runNimDoc()
-
 task docs, "Generate docs":
   runNimDoc()
 
