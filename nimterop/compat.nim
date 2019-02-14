@@ -8,20 +8,17 @@ import std/strutils
 const workaround_10629* = defined(windows) and defined(nimdoc)
   ## pending https://github.com/nim-lang/Nim/pull/10527
 
-from std/os import nil
-
 when workaround_10629:
-  # import std/os except parentDir, DirSep, `/`
+  import std/os except parentDir, DirSep, `/`
   # from std/os import nil
-  # discard
   export os except parentDir, DirSep, `/`, relativePath
 
 else:
-  from std/os import parentDir, DirSep, `/`
+  # from std/os import parentDir, DirSep, `/`
   # import std/os
-  # export os except relativePath
+  import std/os except relativePath
   # export parentDir, DirSep, `/`
-  export os
+  export os except relativePath
 
 when workaround_10629:
   const DirSep* = '\\'
@@ -44,10 +41,9 @@ when workaround_10629:
       result = ""
 
 when (NimMajor, NimMinor, NimPatch) >= (0, 19, 9):
-  # export relativePath
   export os.relativePath
 else:
-  from std/os import unixToNativePath, normalizedPath
+  # from std/os import unixToNativePath, normalizedPath
   proc relativePath*(file, base: string): string =
     ## naive version of `os.relativePath` ; remove after nim >= 0.19.9
     runnableExamples:
