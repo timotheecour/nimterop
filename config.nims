@@ -19,6 +19,7 @@ when defined(Windows):
 const workaround_10629 = defined(windows) and getCommand() == "doc"
   # pending https://github.com/nim-lang/Nim/pull/10629
 when workaround_10629:
+  switch("define", "workaround_10629")
   import ospaths, strformat, strutils
   proc getNimRootDir(): string =
     fmt"{currentSourcePath}".parentDir.parentDir.parentDir
