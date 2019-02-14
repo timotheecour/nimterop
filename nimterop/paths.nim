@@ -1,5 +1,4 @@
-import compat
-# import os except parentDir, `/`
+import os
 
 proc nimteropRoot*(): string =
   result = currentSourcePath.parentDir.parentDir
