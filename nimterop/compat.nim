@@ -23,7 +23,7 @@ when workaround_10629:
       if path[i] in {DirSep, AltSep}: return i
     result = -1
 
-  proc parentDir*(a: string): string =
+  proc parentDir*(path: string): string =
     let sepPos = parentDirPos(path)
     if sepPos >= 0:
       result = substr(path, 0, sepPos-1)
