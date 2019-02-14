@@ -17,6 +17,7 @@ when workaround_10629:
   export os except parentDir, DirSep, `/`, relativePath
 
 else:
+  from std/os import parentDir, DirSep, `/`
   # import std/os
   # export os except relativePath
   # export parentDir, DirSep, `/`
